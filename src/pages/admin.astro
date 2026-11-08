@@ -1,56 +1,96 @@
 ---
-// Halaman Admin Decap CMS Mandiri untuk Benchtekno
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Mengambil semua artikel dari folder content/blog secara otomatis
+const allPosts = await getCollection('blog');
+
+// Mengurutkan artikel berdasarkan tanggal terbaru (jika ada pubDate)
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+  const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+  return dateB - dateA;
+});
 ---
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager — Benchtekno</title>
-</head>
-<body>
-  <!-- Container wajib Decap CMS -->
-  <div id="nc-root"></div>
+<Layout title="Benchtekno — Data-Driven Hardware Comparisons">
+  <!-- Header / Navigation -->
+  <header class="border-b border-slate-800 bg-[#07090e]/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        BENCHTEKNO
+      </a>
+      <nav class="flex gap-6 text-sm font-medium text-slate-400">
+        <a href="/" class="hover:text-cyan-400 transition-colors">Home</a>
+        <a href="#" class="hover:text-cyan-400 transition-colors">Benchmarks</a>
+        <a href="#" class="hover:text-cyan-400 transition-colors">Analysis</a>
+      </nav>
+    </div>
+  </header>
 
-  <!-- Script Decap CMS -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <section class="text-center py-16 max-w-3xl mx-auto">
+      <span class="text-xs font-bold uppercase tracking-widest text-cyan-400 px-3 py-1 bg-cyan-500/10 rounded-full border border-cyan-500/20">
+        Next-Gen Tech Metrics
+      </span>
+      <h1 class="text-4xl md:text-5xl font-black tracking-tight text-white mt-4 mb-6 leading-tight">
+        Deep Hardware Benchmarks & <br/>
+        <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Chipset Face-Offs</span>
+      </h1>
+      <p class="text-slate-400 text-base md:text-lg leading-relaxed">
+        We bypass the corporate marketing fluff. Benchtekno delivers independent, data-driven comparisons of the latest smartphone SoC, desktop silicon, and mobile hardware configurations.
+      </p>
+    </section>
 
-  <script>
-    // Konfigurasi CMS langsung di dalam script agar tidak error 404 config.yml
-    CMS.init({
-      config: {
-        backend: {
-          name: 'github',
-          repo: 'tutde73-cloud/benchtekno',
-          branch: 'main'
-        },
-        media_folder: 'public/images',
-        public_folder: '/images',
-        collections: [
-          {
-            name: 'articles',
-            label: 'Articles & News',
-            folder: 'src/content/articles',
-            create: true,
-            fields: [
-              { label: 'Judul Berita', name: 'title', widget: 'string' },
-              { label: 'Ringkasan', name: 'description', widget: 'text' },
-              { label: 'Tanggal Publikasi', name: 'publishDate', widget: 'date', format: 'YYYY-MM-DD' },
-              { 
-                label: 'Kategori', 
-                name: 'category', 
-                widget: 'select', 
-                options: ['Smartphones & Mobiles', 'Gadgets & Wearables', 'Chipsets & Hardware'] 
-              },
-              { label: 'Cover Image', name: 'coverImage', widget: 'image', required: false },
-              { label: 'Isi Konten Berita', name: 'body', widget: 'markdown' }
-            ]
-          }
-        ]
-      }
-    });
-  </script>
-</body>
-</html>
+    <!-- Articles Feed Section -->
+    <section class="mt-8">
+      <h2 class="text-xl font-bold tracking-tight text-white mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        Latest Technical Face-Offs
+      </h2>
+
+      {sortedPosts.length === 0 ? (
+        <div class="border border-dashed border-slate-800 rounded-2xl p-12 text-center text-slate-500">
+          No articles published yet. Add markdown files to <code class="text-slate-400">src/content/blog/</code>.
+        </div>
+      ) : (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedPosts.map((post) => (
+            <article class="group bg-slate-900/40 border border-slate-800 hover:border-cyan-500/30 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+              <div>
+                <div class="flex gap-2 mb-4 flex-wrap">
+                  {post.data.tags?.map((tag: string) => (
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-0.5 bg-slate-800 rounded">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug mb-3">
+                  <a href={`/blog/${post.slug}`}>
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-slate-400 text-sm line-clamp-3 mb-6">
+                  {post.data.description}
+                </p>
+              </div>
+              
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-4">
+                <span>By {post.data.author || 'Staff'}</span>
+                <span class="text-cyan-400 font-semibold group-hover:underline flex items-center gap-1">
+                  Read Data →
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/60 bg-[#05070a] text-center py-8 mt-24 text-sm text-slate-600">
+    <p>&copy; 2026 Benchtekno. Built with Astro & Tailwind CSS. Powered by Raw Metrics.</p>
+  </footer>
+</Layout>
