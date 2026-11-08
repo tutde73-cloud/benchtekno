@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: tutde73-cloud/benchtekno  # Sesuaikan dengan repository GitHub kamu
+  branch: main                    # Cabang utama repository kamu
+
+# Mode publikasi langsung (klik publish langsung commit ke GitHub)
+publish_mode: editorial_workflow
+
+media_folder: "public/images"     # Tempat penyimpanan file gambar yang di-upload
+public_folder: "/images"          # Path akses publik untuk gambar di dalam Markdown
+
+collections:
+  - name: "articles"
+    label: "Articles & News"
+    folder: "src/content/articles" # Folder tujuan file .md tersimpan otomatis
+    create: true
+    fields:
+      - { label: "Judul Berita", name: "title", widget: "string" }
+      - { label: "Ringkasan", name: "description", widget: "text" }
+      - { label: "Tanggal Publikasi", name: "publishDate", widget: "date", format: "YYYY-MM-DD" }
+      - { label: "Kategori", name: "category", widget: "select", options: ["Smartphones & Mobiles", "Gadgets & Wearables", "Chipsets & Hardware", "Industry Insights"] }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - { label: "Isi Konten Berita", name: "body", widget: "markdown" }
