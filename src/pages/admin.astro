@@ -1,118 +1,155 @@
-<!DOCTYPE html>
+---
+// Halaman Admin CMS Benchtekno
+---
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — Benchtekno CMS</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        darkbg: '#07090e',
-                        cardbg: '#0f172a',
-                        bordercolor: '#1e293b',
-                        accent: '#38bdf8'
-                    }
-                }
-            }
+    <style>
+        :root {
+            --bg-color: #07090e;
+            --card-bg: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --accent: #38bdf8;
         }
-    </script>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .btn-primary {
+            background-color: var(--accent);
+            color: #07090e;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        input, select, textarea {
+            width: 100%;
+            background-color: #07090e;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+        }
+    </style>
 </head>
-<body class="bg-darkbg text-slate-100 font-sans min-h-screen flex flex-col">
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
 
     <!-- Header / Navbar -->
-    <header class="border-b border-bordercolor bg-cardbg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="text-xl font-black tracking-wider text-white font-mono">Bench<span class="text-accent">tekno</span></span>
-                <span class="bg-accent/10 text-accent text-xs font-bold px-2.5 py-1 rounded-md border border-accent/20">News CMS</span>
+    <header style="border-bottom: 1px solid var(--border-color); background-color: var(--card-bg); position: sticky; top: 0; z-index: 50;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 1.25rem; font-weight: 900; color: #ffffff; font-family: monospace;">Bench<span style="color: var(--accent);">tekno</span></span>
+                <span style="background: rgba(56,189,248,0.1); color: var(--accent); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(56,189,248,0.2);">News CMS</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-sm text-slate-400">Git-as-CMS Workflow</span>
-                <a href="/" class="text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-bordercolor transition">Preview Site</a>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Git-as-CMS Workflow</span>
+                <a href="/" style="font-size: 0.85rem; background: #1e293b; color: #f8fafc; padding: 6px 14px; border-radius: 8px; text-decoration: none; border: 1px solid var(--border-color);">Preview Site</a>
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-8">
+    <main style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; flex: 1; width: 100%; box-sizing: border-box;">
         
         <!-- Page Title & Actions -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 16px;">
             <div>
-                <h1 class="text-2xl font-black text-white">Article & News Manager</h1>
-                <p class="text-sm text-slate-400">Buat, sunting, dan kelola berita teknologi langsung dari dashboard.</p>
+                <h1 style="font-size: 1.8rem; font-weight: 900; margin: 0 0 6px 0; color: #ffffff;">Article & News Manager</h1>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Buat, sunting, dan kelola berita teknologi langsung dari dashboard.</p>
             </div>
-            <button onclick="openEditorModal()" class="bg-accent text-darkbg font-bold px-4 py-2.5 rounded-xl text-sm hover:bg-sky-400 transition flex items-center gap-2">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                Tulis Berita Baru (.md)
+            <button onclick="openEditorModal()" class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
+                + Tulis Berita Baru (.md)
             </button>
         </div>
 
         <!-- Quick Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
-                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Total Berita</p>
-                <h3 class="text-3xl font-extrabold text-white">8</h3>
-                <span class="text-xs text-emerald-400 mt-2 inline-block">+3 minggu ini</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div class="card">
+                <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Total Berita</p>
+                <h3 style="font-size: 2rem; font-weight: 800; margin: 0; color: #ffffff;">8</h3>
+                <span style="font-size: 0.75rem; color: #34d399; margin-top: 8px; display: inline-block;">+3 minggu ini</span>
             </div>
-            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
-                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Direktori CMS</p>
-                <h3 class="text-lg font-mono font-extrabold text-accent truncate">src/content/articles/</h3>
-                <span class="text-xs text-slate-400 mt-2 inline-block">Sinkronisasi Git</span>
+            <div class="card">
+                <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Direktori CMS</p>
+                <h3 style="font-size: 0.95rem; font-family: monospace; font-weight: 800; margin: 0; color: var(--accent);">src/content/articles/</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; display: inline-block;">Sinkronisasi Git</span>
             </div>
-            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
-                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Penyimpanan Gambar</p>
-                <h3 class="text-lg font-mono font-extrabold text-sky-400 truncate">public/images/</h3>
-                <span class="text-xs text-slate-400 mt-2 inline-block">Aset Lokal Aktif</span>
+            <div class="card">
+                <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Penyimpanan Gambar</p>
+                <h3 style="font-size: 0.95rem; font-family: monospace; font-weight: 800; margin: 0; color: #38bdf8;">public/images/</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; display: inline-block;">Aset Lokal Aktif</span>
             </div>
-            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
-                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Status Deployment</p>
-                <h3 class="text-3xl font-extrabold text-emerald-400">Live</h3>
-                <span class="text-xs text-slate-400 mt-2 inline-block">Vercel Production</span>
+            <div class="card">
+                <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Status Deployment</p>
+                <h3 style="font-size: 2rem; font-weight: 800; margin: 0; color: #34d399;">Live</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; display: inline-block;">Vercel Production</span>
             </div>
         </div>
 
         <!-- Article Management Table -->
-        <section class="bg-cardbg border border-bordercolor rounded-2xl overflow-hidden shadow-xl">
-            <div class="p-6 border-b border-bordercolor flex justify-between items-center">
-                <h2 class="text-lg font-bold text-white">Daftar Publikasi Berita</h2>
-                <span class="text-xs text-slate-400">Urutan berdasarkan tanggal terbaru</span>
+        <section class="card" style="padding: 0; overflow: hidden;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff;">Daftar Publikasi Berita</h2>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Urutan berdasarkan tanggal terbaru</span>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+            <div style="overflow-x-auto;">
+                <table style="width: 100%; text-align: left; border-collapse: collapse;">
                     <thead>
-                        <tr class="border-b border-bordercolor text-xs uppercase text-slate-400 bg-slate-900/50">
-                            <th class="p-4">Judul Berita</th>
-                            <th class="p-4">Kategori</th>
-                            <th class="p-4">Tanggal Publikasi</th>
-                            <th class="p-4">Status</th>
-                            <th class="p-4 text-right">Aksi</th>
+                        <tr style="border-bottom: 1px solid var(--border-color); font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); background: rgba(15,23,42,0.5);">
+                            <th style="padding: 14px 20px;">Judul Berita</th>
+                            <th style="padding: 14px 20px;">Kategori</th>
+                            <th style="padding: 14px 20px;">Tanggal</th>
+                            <th style="padding: 14px 20px;">Status</th>
+                            <th style="padding: 14px 20px; text-align: right;">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-bordercolor text-sm">
-                        <tr class="hover:bg-slate-800/40 transition">
-                            <td class="p-4 font-semibold text-white">NVIDIA RTX 5090 Mobile Benchmarks: Lonjakan Performa Grafis Laptop</td>
-                            <td class="p-4"><span class="bg-sky-500/10 text-accent px-2.5 py-1 rounded-md text-xs border border-sky-500/20 font-medium">Smartphones</span></td>
-                            <td class="p-4 text-slate-400">Nov 8, 2026</td>
-                            <td class="p-4"><span class="text-emerald-400 text-xs font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Published</span></td>
-                            <td class="p-4 text-right space-x-3">
-                                <button onclick="alert('Membuka file markdown artikel...')" class="text-slate-400 hover:text-white transition font-medium">Edit</button>
-                                <button onclick="alert('Menghapus artikel...')" class="text-rose-400 hover:text-rose-300 transition font-medium">Hapus</button>
+                    <tbody style="font-size: 0.9rem;">
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 16px 20px; font-weight: 600; color: #ffffff;">NVIDIA RTX 5090 Mobile Benchmarks: Lonjakan Performa Grafis Laptop</td>
+                            <td style="padding: 16px 20px;"><span style="background: rgba(56,189,248,0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; border: 1px solid rgba(56,189,248,0.2);">Smartphones</span></td>
+                            <td style="padding: 16px 20px; color: var(--text-muted);">Nov 8, 2026</td>
+                            <td style="padding: 16px 20px;"><span style="color: #34d399; font-size: 0.8rem; font-weight: 600;">● Published</span></td>
+                            <td style="padding: 16px 20px; text-align: right;">
+                                <button onclick="alert('Membuka file markdown...')" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-weight:600; margin-right:10px;">Edit</button>
+                                <button onclick="alert('Menghapus artikel...')" style="background:none; border:none; color: #f43f5e; cursor:pointer; font-weight:600;">Hapus</button>
                             </td>
                         </tr>
-                        <tr class="hover:bg-slate-800/40 transition">
-                            <td class="p-4 font-semibold text-white">Snapdragon 8 Gen 5 Resmi Diumumkan dengan Arsitektur Core Baru</td>
-                            <td class="p-4"><span class="bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-md text-xs border border-purple-500/20 font-medium">Chipsets</span></td>
-                            <td class="p-4 text-slate-400">Nov 7, 2026</td>
-                            <td class="p-4"><span class="text-emerald-400 text-xs font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Published</span></td>
-                            <td class="p-4 text-right space-x-3">
-                                <button onclick="alert('Membuka file markdown artikel...')" class="text-slate-400 hover:text-white transition font-medium">Edit</button>
-                                <button onclick="alert('Menghapus artikel...')" class="text-rose-400 hover:text-rose-300 transition font-medium">Hapus</button>
+                        <tr>
+                            <td style="padding: 16px 20px; font-weight: 600; color: #ffffff;">Snapdragon 8 Gen 5 Resmi Diumumkan dengan Arsitektur Core Baru</td>
+                            <td style="padding: 16px 20px;"><span style="background: rgba(168,85,247,0.1); color: #c084fc; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; border: 1px solid rgba(168,85,247,0.2);">Chipsets</span></td>
+                            <td style="padding: 16px 20px; color: var(--text-muted);">Nov 7, 2026</td>
+                            <td style="padding: 16px 20px;"><span style="color: #34d399; font-size: 0.8rem; font-weight: 600;">● Published</span></td>
+                            <td style="padding: 16px 20px; text-align: right;">
+                                <button onclick="alert('Membuka file markdown...')" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-weight:600; margin-right:10px;">Edit</button>
+                                <button onclick="alert('Menghapus artikel...')" style="background:none; border:none; color: #f43f5e; cursor:pointer; font-weight:600;">Hapus</button>
                             </td>
                         </tr>
                     </tbody>
@@ -123,23 +160,23 @@
     </main>
 
     <!-- Modal / Drawer Form Input Berita -->
-    <div id="editor-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardbg border border-bordercolor w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="p-6 border-b border-bordercolor flex justify-between items-center bg-slate-900/50">
-                <h3 class="text-lg font-bold text-white">Form Input Berita Baru</h3>
-                <button onclick="closeEditorModal()" class="text-slate-400 hover:text-white font-bold text-lg">&times;</button>
+    <div id="editor-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+        <div class="card" style="width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-sizing: border-box; padding: 0;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15,23,42,0.5);">
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff;">Form Input Berita Baru</h3>
+                <button onclick="closeEditorModal()" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
             
-            <div class="p-6 overflow-y-auto space-y-4 flex-1">
+            <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
                 <div>
-                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Judul Berita (Title)</label>
-                    <input type="text" id="news-title" placeholder="Contoh: Ulasan Eksklusif Smartphone Flagship Terbaru..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                    <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Judul Berita (Title)</label>
+                    <input type="text" id="news-title" placeholder="Contoh: Ulasan Eksklusif Smartphone Flagship Terbaru...">
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                     <div>
-                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Kategori</label>
-                        <select id="news-category" class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                        <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Kategori</label>
+                        <select id="news-category">
                             <option value="Smartphones">Smartphones & Mobiles</option>
                             <option value="Gadgets">Gadgets & Wearables</option>
                             <option value="Chipsets">Chipsets & Hardware</option>
@@ -147,28 +184,28 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Tanggal Publikasi</label>
-                        <input type="date" id="news-date" class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                        <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Tanggal Publikasi</label>
+                        <input type="date" id="news-date">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Ringkasan Berita (Description)</label>
-                    <textarea id="news-desc" rows="2" placeholder="Tulis deskripsi singkat yang menarik pembaca..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent"></textarea>
+                    <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Ringkasan Berita (Description)</label>
+                    <textarea id="news-desc" rows="2" placeholder="Tulis deskripsi singkat yang menarik pembaca..."></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Isi Konten Berita (Markdown Format)</label>
-                    <textarea id="news-content" rows="6" placeholder="Tulis isi berita lengkap di sini menggunakan format Markdown..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:outline-none focus:border-accent"></textarea>
+                    <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Isi Konten Berita (Markdown Format)</label>
+                    <textarea id="news-content" rows="5" placeholder="Tulis isi berita lengkap di sini..." style="font-family: monospace; font-size: 0.85rem;"></textarea>
                 </div>
 
                 <!-- Generated Markdown Output Box -->
-                <div class="bg-darkbg p-4 rounded-xl border border-bordercolor">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs uppercase font-bold text-accent">Hasil Kode Markdown (.md)</span>
-                        <button onclick="copyMarkdown()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1 rounded-lg border border-bordercolor transition">Salin Kode</button>
+                <div style="background: #07090e; padding: 16px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--accent);">Hasil Kode Markdown (.md)</span>
+                        <button onclick="copyMarkdown()" style="font-size: 0.75rem; background: #1e293b; color: #fff; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; cursor: pointer;">Salin Kode</button>
                     </div>
-                    <pre id="markdown-output" class="text-xs font-mono text-slate-300 overflow-x-auto whitespace-pre-wrap bg-slate-950 p-3 rounded-lg border border-bordercolor/50">---
+                    <pre id="markdown-output" style="font-size: 0.75rem; font-family: monospace; color: #cbd5e1; overflow-x: auto; white-space: pre-wrap; background: #030712; padding: 12px; border-radius: 8px; border: 1px solid rgba(30,41,59,0.5); margin: 0;">---
 title: "Judul Berita"
 description: "Ringkasan berita..."
 publishDate: 2026-11-08
@@ -179,14 +216,14 @@ Tulis konten berita lengkap di sini...</pre>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-bordercolor bg-slate-900/50 flex justify-end gap-3">
-                <button onclick="closeEditorModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm rounded-xl font-medium transition">Tutup</button>
-                <button onclick="alert('Salin kode markdown di atas lalu buat file .md baru di folder src/content/articles/ di repository GitHub Anda!')" class="px-4 py-2 bg-accent text-darkbg hover:bg-sky-400 text-sm rounded-xl font-bold transition">Simpan & Panduan Git</button>
+            <div style="padding: 16px 24px; border-top: 1px solid var(--border-color); background: rgba(15,23,42,0.5); display: flex; justify-content: flex-end; gap: 12px;">
+                <button onclick="closeEditorModal()" style="background: #1e293b; color: #fff; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;">Tutup</button>
+                <button onclick="alert('Salin kode markdown di atas lalu buat file .md baru di folder src/content/articles/ di GitHub!')" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">Simpan & Panduan Git</button>
             </div>
         </div>
     </div>
 
-    <!-- Script Modal & Generator Markdown -->
+    <!-- Script Modal & Generator -->
     <script>
         const modal = document.getElementById('editor-modal');
         const titleInput = document.getElementById('news-title');
@@ -196,16 +233,15 @@ Tulis konten berita lengkap di sini...</pre>
         const contentInput = document.getElementById('news-content');
         const outputPre = document.getElementById('markdown-output');
 
-        // Set default date to today
         dateInput.valueAsDate = new Date();
 
         function openEditorModal() {
-            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
             updateMarkdownPreview();
         }
 
         function closeEditorModal() {
-            modal.classList.add('hidden');
+            modal.style.display = 'none';
         }
 
         function updateMarkdownPreview() {
@@ -227,7 +263,6 @@ ${content}`;
             outputPre.textContent = mdText;
         }
 
-        // Live update generator
         [titleInput, catInput, dateInput, descInput, contentInput].forEach(el => {
             el.addEventListener('input', updateMarkdownPreview);
         });
@@ -239,8 +274,8 @@ ${content}`;
     </script>
 
     <!-- Footer -->
-    <footer class="border-t border-bordercolor py-6 text-center text-xs text-slate-500 mt-auto">
-        &copy; 2026 Benchtekno Admin Panel. Powered by Astro, Tailwind CSS, & Vercel.
+    <footer style="border-top: 1px solid var(--border-color); padding: 20px; text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: auto;">
+        &copy; 2026 Benchtekno Admin Panel. Powered by Astro & Vercel.
     </footer>
 
 </body>
