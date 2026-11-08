@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 
-// Mengambil semua artikel dari folder content collections
 const allArticles = await getCollection('articles');
 const sortedArticles = allArticles.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 const featured = sortedArticles[0];
+const others = sortedArticles.slice(1);
 ---
 
 <html lang="en">
@@ -13,46 +13,111 @@ const featured = sortedArticles[0];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benchtekno — Global Tech Media & Hardware Reviews</title>
 </head>
-<body style="background-color: #090d16; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px 20px;">
+<body style="background-color: #07090e; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0;">
     
-    <main style="max-width: 900px; margin: 0 auto;">
-        <!-- Header / Logo -->
-        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 20px; margin-bottom: 40px;">
-            <h1 style="font-size: 1.8rem; font-weight: 900; letter-spacing: 1px; margin: 0; background: linear-gradient(to right, #06b6d4, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                BENCHTEKNO
-            </h1>
-            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #06b6d4; background: rgba(6, 182, 212, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                Global Tech Desk
-            </span>
-        </header>
+    <!-- Top Navigation Bar -->
+    <header style="border-bottom: 1px solid #1e293b; background-color: #0b0f17; position: sticky; top: 0; z-index: 50;">
+        <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 20px;">
+            <div style="display: flex; align-items: center; gap: 40px;">
+                <a href="/" style="font-size: 1.4rem; font-weight: 900; letter-spacing: 1px; color: #ffffff; text-decoration: none; background: linear-gradient(to right, #06b6d4, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    BENCHTEKNO
+                </a>
+                <nav style="display: flex; gap: 24px;">
+                    <span style="color: #94a3b8; font-size: 0.9rem; cursor: pointer;">Smartphones</span>
+                    <span style="color: #94a3b8; font-size: 0.9rem; cursor: pointer;">Laptops</span>
+                    <span style="color: #94a3b8; font-size: 0.9rem; cursor: pointer;">Benchmarks</span>
+                    <span style="color: #94a3b8; font-size: 0.9rem; cursor: pointer;">Reviews</span>
+                </nav>
+            </div>
+            <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; background: rgba(6, 182, 212, 0.1); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(6, 182, 212, 0.2); font-weight: 600;">
+                    Global Edition
+                </span>
+            </div>
+        </div>
+    </header>
 
-        <!-- Hero Article Section -->
+    <main style="max-width: 1100px; margin: 0 auto; padding: 40px 20px;">
+        
+        <!-- Featured Hero Section -->
         {featured && (
-            <section style="background-color: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 32px; margin-bottom: 40px;">
-                <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
-                    <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #06b6d4; background: rgba(6, 182, 212, 0.1); padding: 4px 10px; border-radius: 6px;">
-                        {featured.data.category}
-                    </span>
-                    <span style="font-size: 0.8rem; color: #94a3b8;">
-                        {featured.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </span>
+            <section style="background-color: #0f172a; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; margin-bottom: 50px;">
+                <!-- Hero Image Preview Box -->
+                <div style="width: 100%; height: 320px; background-color: #090d16; border-bottom: 1px solid #1e293b; display: flex; align-items: center; justify-content: center; color: #475569; font-family: monospace; font-size: 0.9rem; letter-spacing: 1px;">
+                    [Featured Hero Image Preview]
                 </div>
-                <h2 style="font-size: 2rem; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.3;">
-                    {featured.data.title}
-                </h2>
-                <p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.6; margin: 0 0 24px 0;">
-                    {featured.data.description}
-                </p>
-                <div style="font-size: 0.9rem; font-weight: 600; color: #38bdf8;">
-                    By {featured.data.author}
+                
+                <!-- Hero Content Area -->
+                <div style="padding: 36px;">
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
+                        <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; background: rgba(6, 182, 212, 0.1); padding: 4px 10px; border-radius: 6px;">
+                            {featured.data.category}
+                        </span>
+                        <span style="font-size: 0.85rem; color: #94a3b8;">
+                            {featured.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </span>
+                    </div>
+                    
+                    <h2 style="font-size: 2.25rem; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.25;">
+                        {featured.data.title}
+                    </h2>
+                    
+                    <p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin: 0 0 24px 0;">
+                        {featured.data.description}
+                    </p>
+                    
+                    <a href={`/articles/${featured.slug}`} style="color: #38bdf8; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                        Read Full Analysis &rarr;
+                    </a>
                 </div>
             </section>
         )}
 
-        <!-- Footer Note -->
-        <footer style="border-top: 1px solid #1e293b; padding-top: 20px; text-align: center; color: #64748b; font-size: 0.85rem;">
+        <!-- Latest Hardware & Reviews Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 30px;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin: 0;">
+                Latest Hardware & Reviews
+            </h3>
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: 600;">
+                Updated Real-Time
+            </span>
+        </div>
+
+        <!-- Grid for Other Articles -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 60px;">
+            {others.map((article) => (
+                <a href={`/articles/${article.slug}`} style="text-decoration: none; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="width: 100%; height: 180px; background-color: #090d16; border-bottom: 1px solid #1e293b; display: flex; align-items: center; justify-content: center; color: #475569; font-family: monospace; font-size: 0.85rem;">
+                        [Gadget Thumbnail]
+                    </div>
+                    <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">
+                                {article.data.category}
+                            </div>
+                            <h4 style="font-size: 1.15rem; font-weight: 700; color: #ffffff; margin: 0 0 10px 0; line-height: 1.4;">
+                                {article.data.title}
+                            </h4>
+                            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                                {article.data.description}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            ))}
+            
+            {others.length === 0 && (
+                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 14px; color: #64748b; font-size: 0.95rem;">
+                    More hardware reviews coming soon. Stay tuned.
+                </div>
+            )}
+        </div>
+
+        <!-- Footer -->
+        <footer style="border-top: 1px solid #1e293b; padding-top: 30px; text-align: center; color: #64748b; font-size: 0.85rem; margin-bottom: 40px;">
             &copy; 2026 Benchtekno. Independent smartphone news, mobile reviews, and hardware insights.
         </footer>
+
     </main>
 
 </body>
