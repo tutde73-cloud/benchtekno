@@ -1,5 +1,5 @@
 ---
-// Halaman Admin Decap CMS
+// Halaman Admin Decap CMS Mandiri untuk Benchtekno
 ---
 
 <!doctype html>
@@ -8,14 +8,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager — Benchtekno</title>
-  <!-- Netlify Identity Widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <!-- Root element wajib untuk Decap CMS -->
+  <!-- Container wajib Decap CMS -->
   <div id="nc-root"></div>
 
-  <!-- Decap CMS Script dari CDN -->
+  <!-- Script Decap CMS -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <script>
+    // Konfigurasi CMS langsung di dalam script agar tidak error 404 config.yml
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'tutde73-cloud/benchtekno',
+          branch: 'main'
+        },
+        media_folder: 'public/images',
+        public_folder: '/images',
+        collections: [
+          {
+            name: 'articles',
+            label: 'Articles & News',
+            folder: 'src/content/articles',
+            create: true,
+            fields: [
+              { label: 'Judul Berita', name: 'title', widget: 'string' },
+              { label: 'Ringkasan', name: 'description', widget: 'text' },
+              { label: 'Tanggal Publikasi', name: 'publishDate', widget: 'date', format: 'YYYY-MM-DD' },
+              { 
+                label: 'Kategori', 
+                name: 'category', 
+                widget: 'select', 
+                options: ['Smartphones & Mobiles', 'Gadgets & Wearables', 'Chipsets & Hardware'] 
+              },
+              { label: 'Cover Image', name: 'coverImage', widget: 'image', required: false },
+              { label: 'Isi Konten Berita', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
