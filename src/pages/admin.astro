@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Benchtekno CMS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#07090e',
+                        cardbg: '#0f172a',
+                        bordercolor: '#1e293b',
+                        accent: '#38bdf8'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkbg text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-bordercolor bg-cardbg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-xl font-black tracking-wider text-white font-mono">Bench<span class="text-accent">tekno</span></span>
+                <span class="bg-accent/10 text-accent text-xs font-bold px-2.5 py-1 rounded-md border border-accent/20">News CMS</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-slate-400">Git-as-CMS Workflow</span>
+                <a href="/" class="text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-bordercolor transition">Preview Site</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-8">
+        
+        <!-- Page Title & Actions -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-black text-white">Article & News Manager</h1>
+                <p class="text-sm text-slate-400">Buat, sunting, dan kelola berita teknologi langsung dari dashboard.</p>
+            </div>
+            <button onclick="openEditorModal()" class="bg-accent text-darkbg font-bold px-4 py-2.5 rounded-xl text-sm hover:bg-sky-400 transition flex items-center gap-2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tulis Berita Baru (.md)
+            </button>
+        </div>
+
+        <!-- Quick Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
+                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Total Berita</p>
+                <h3 class="text-3xl font-extrabold text-white">8</h3>
+                <span class="text-xs text-emerald-400 mt-2 inline-block">+3 minggu ini</span>
+            </div>
+            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
+                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Direktori CMS</p>
+                <h3 class="text-lg font-mono font-extrabold text-accent truncate">src/content/articles/</h3>
+                <span class="text-xs text-slate-400 mt-2 inline-block">Sinkronisasi Git</span>
+            </div>
+            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
+                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Penyimpanan Gambar</p>
+                <h3 class="text-lg font-mono font-extrabold text-sky-400 truncate">public/images/</h3>
+                <span class="text-xs text-slate-400 mt-2 inline-block">Aset Lokal Aktif</span>
+            </div>
+            <div class="bg-cardbg border border-bordercolor p-6 rounded-xl">
+                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Status Deployment</p>
+                <h3 class="text-3xl font-extrabold text-emerald-400">Live</h3>
+                <span class="text-xs text-slate-400 mt-2 inline-block">Vercel Production</span>
+            </div>
+        </div>
+
+        <!-- Article Management Table -->
+        <section class="bg-cardbg border border-bordercolor rounded-2xl overflow-hidden shadow-xl">
+            <div class="p-6 border-b border-bordercolor flex justify-between items-center">
+                <h2 class="text-lg font-bold text-white">Daftar Publikasi Berita</h2>
+                <span class="text-xs text-slate-400">Urutan berdasarkan tanggal terbaru</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-bordercolor text-xs uppercase text-slate-400 bg-slate-900/50">
+                            <th class="p-4">Judul Berita</th>
+                            <th class="p-4">Kategori</th>
+                            <th class="p-4">Tanggal Publikasi</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-bordercolor text-sm">
+                        <tr class="hover:bg-slate-800/40 transition">
+                            <td class="p-4 font-semibold text-white">NVIDIA RTX 5090 Mobile Benchmarks: Lonjakan Performa Grafis Laptop</td>
+                            <td class="p-4"><span class="bg-sky-500/10 text-accent px-2.5 py-1 rounded-md text-xs border border-sky-500/20 font-medium">Smartphones</span></td>
+                            <td class="p-4 text-slate-400">Nov 8, 2026</td>
+                            <td class="p-4"><span class="text-emerald-400 text-xs font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Published</span></td>
+                            <td class="p-4 text-right space-x-3">
+                                <button onclick="alert('Membuka file markdown artikel...')" class="text-slate-400 hover:text-white transition font-medium">Edit</button>
+                                <button onclick="alert('Menghapus artikel...')" class="text-rose-400 hover:text-rose-300 transition font-medium">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-800/40 transition">
+                            <td class="p-4 font-semibold text-white">Snapdragon 8 Gen 5 Resmi Diumumkan dengan Arsitektur Core Baru</td>
+                            <td class="p-4"><span class="bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-md text-xs border border-purple-500/20 font-medium">Chipsets</span></td>
+                            <td class="p-4 text-slate-400">Nov 7, 2026</td>
+                            <td class="p-4"><span class="text-emerald-400 text-xs font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Published</span></td>
+                            <td class="p-4 text-right space-x-3">
+                                <button onclick="alert('Membuka file markdown artikel...')" class="text-slate-400 hover:text-white transition font-medium">Edit</button>
+                                <button onclick="alert('Menghapus artikel...')" class="text-rose-400 hover:text-rose-300 transition font-medium">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal / Drawer Form Input Berita -->
+    <div id="editor-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardbg border border-bordercolor w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="p-6 border-b border-bordercolor flex justify-between items-center bg-slate-900/50">
+                <h3 class="text-lg font-bold text-white">Form Input Berita Baru</h3>
+                <button onclick="closeEditorModal()" class="text-slate-400 hover:text-white font-bold text-lg">&times;</button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto space-y-4 flex-1">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Judul Berita (Title)</label>
+                    <input type="text" id="news-title" placeholder="Contoh: Ulasan Eksklusif Smartphone Flagship Terbaru..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Kategori</label>
+                        <select id="news-category" class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                            <option value="Smartphones">Smartphones & Mobiles</option>
+                            <option value="Gadgets">Gadgets & Wearables</option>
+                            <option value="Chipsets">Chipsets & Hardware</option>
+                            <option value="Industry">Industry Insights</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Tanggal Publikasi</label>
+                        <input type="date" id="news-date" class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Ringkasan Berita (Description)</label>
+                    <textarea id="news-desc" rows="2" placeholder="Tulis deskripsi singkat yang menarik pembaca..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-accent"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Isi Konten Berita (Markdown Format)</label>
+                    <textarea id="news-content" rows="6" placeholder="Tulis isi berita lengkap di sini menggunakan format Markdown..." class="w-full bg-darkbg border border-bordercolor rounded-xl px-4 py-2.5 text-white font-mono text-xs focus:outline-none focus:border-accent"></textarea>
+                </div>
+
+                <!-- Generated Markdown Output Box -->
+                <div class="bg-darkbg p-4 rounded-xl border border-bordercolor">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs uppercase font-bold text-accent">Hasil Kode Markdown (.md)</span>
+                        <button onclick="copyMarkdown()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1 rounded-lg border border-bordercolor transition">Salin Kode</button>
+                    </div>
+                    <pre id="markdown-output" class="text-xs font-mono text-slate-300 overflow-x-auto whitespace-pre-wrap bg-slate-950 p-3 rounded-lg border border-bordercolor/50">---
+title: "Judul Berita"
+description: "Ringkasan berita..."
+publishDate: 2026-11-08
+category: "Smartphones"
+---
+
+Tulis konten berita lengkap di sini...</pre>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-bordercolor bg-slate-900/50 flex justify-end gap-3">
+                <button onclick="closeEditorModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm rounded-xl font-medium transition">Tutup</button>
+                <button onclick="alert('Salin kode markdown di atas lalu buat file .md baru di folder src/content/articles/ di repository GitHub Anda!')" class="px-4 py-2 bg-accent text-darkbg hover:bg-sky-400 text-sm rounded-xl font-bold transition">Simpan & Panduan Git</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Modal & Generator Markdown -->
+    <script>
+        const modal = document.getElementById('editor-modal');
+        const titleInput = document.getElementById('news-title');
+        const catInput = document.getElementById('news-category');
+        const dateInput = document.getElementById('news-date');
+        const descInput = document.getElementById('news-desc');
+        const contentInput = document.getElementById('news-content');
+        const outputPre = document.getElementById('markdown-output');
+
+        // Set default date to today
+        dateInput.valueAsDate = new Date();
+
+        function openEditorModal() {
+            modal.classList.remove('hidden');
+            updateMarkdownPreview();
+        }
+
+        function closeEditorModal() {
+            modal.classList.add('hidden');
+        }
+
+        function updateMarkdownPreview() {
+            const title = titleInput.value || 'Judul Berita';
+            const category = catInput.value;
+            const date = dateInput.value || '2026-11-08';
+            const desc = descInput.value || 'Ringkasan berita...';
+            const content = contentInput.value || 'Tulis konten berita lengkap di sini...';
+
+            const mdText = `---
+title: "${title}"
+description: "${desc}"
+publishDate: ${date}
+category: "${category}"
+---
+
+${content}`;
+
+            outputPre.textContent = mdText;
+        }
+
+        // Live update generator
+        [titleInput, catInput, dateInput, descInput, contentInput].forEach(el => {
+            el.addEventListener('input', updateMarkdownPreview);
+        });
+
+        function copyMarkdown() {
+            navigator.clipboard.writeText(outputPre.textContent);
+            alert('Kode Markdown berhasil disalin ke clipboard!');
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer class="border-t border-bordercolor py-6 text-center text-xs text-slate-500 mt-auto">
+        &copy; 2026 Benchtekno Admin Panel. Powered by Astro, Tailwind CSS, & Vercel.
+    </footer>
+
+</body>
+</html>
