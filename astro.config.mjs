@@ -1,17 +1,11 @@
-{
-  "name": "benchtekno",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
-  },
-  "dependencies": {
-    "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "^5.0.0",
-    "astro": "^4.0.0",
-    "tailwindcss": "^3.0.0"
-  }
-}
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://vercel.app',
+  integrations: [
+    tailwind(),
+    sitemap()
+  ]
+});
