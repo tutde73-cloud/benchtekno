@@ -15,7 +15,7 @@ const newsList = sortedArticles.slice(1, 7);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benchtekno — Global Tech & Gadget News Portal</title>
-    <meta name="description" content="Breaking news, in-depth smartphone reviews, mobile chipsets, and global tech industry updates." />
+    <meta name="description" content="Breaking news, in-depth smartphone reviews, and global tech industry updates." />
     <link rel="canonical" href="https://www.benchtekno.com/" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -23,23 +23,51 @@ const newsList = sortedArticles.slice(1, 7);
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.benchtekno.com/" />
     <meta property="og:title" content="Benchtekno — Global Tech & Gadget News Portal" />
-    <meta property="og:description" content="Breaking news, in-depth smartphone reviews, mobile chipsets, and global tech industry updates." />
+    <meta property="og:description" content="Breaking news, in-depth smartphone reviews, and global tech industry updates." />
     <meta property="og:image" content="https://www.benchtekno.com/default-og.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Theme Styles & Variables -->
+    <style>
+        :root {
+            --bg-color: #0b0f17;
+            --card-bg: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --ticker-bg: #07090e;
+        }
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --ticker-bg: #f1f5f9;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
 </head>
-<body style="background-color: #0b0f17; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0;">
+<body>
 
     <!-- Top News Ticker / Notification Bar -->
-    <div style="background-color: #07090e; border-bottom: 1px solid #1e293b; padding: 8px 20px; font-size: 0.8rem; color: #94a3b8; text-align: center;">
+    <div style="background-color: var(--ticker-bg); border-bottom: 1px solid var(--border-color); padding: 8px 20px; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
         <span style="color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-right: 8px;">Live Feed</span> Real-time global gadget updates, smartphone leaks, and performance benchmarks.
     </div>
 
     <!-- Clean Newsroom Header -->
-    <header style="border-bottom: 1px solid #1e293b; background-color: #0b0f17; position: sticky; top: 0; z-index: 50;">
+    <header style="border-bottom: 1px solid var(--border-color); background-color: var(--bg-color); position: sticky; top: 0; z-index: 50; transition: background-color 0.3s, border-color 0.3s;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
             
             <!-- Left: Menu Drawer Button -->
-            <button id="menu-btn" style="background: none; border: none; cursor: pointer; color: #ffffff; display: flex; align-items: center; padding: 4px;" title="Open Menu">
+            <button id="menu-btn" style="background: none; border: none; cursor: pointer; color: var(--text-color); display: flex; align-items: center; padding: 4px;" title="Open Menu">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -48,49 +76,57 @@ const newsList = sortedArticles.slice(1, 7);
             </button>
 
             <!-- Center: Brand Logo -->
-            <a href="/" style="font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; text-decoration: none;">
+            <a href="/" style="font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text-color); text-decoration: none;">
                 Bench<span style="color: #38bdf8;">tekno</span>
             </a>
 
-            <!-- Right: Search Button -->
-            <button id="search-btn" style="background: none; border: none; cursor: pointer; color: #ffffff; display: flex; align-items: center; padding: 4px;" title="Search News">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </button>
+            <!-- Right Controls: Search & Theme Toggle -->
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <!-- Search Button -->
+                <button id="search-btn" style="background: none; border: none; cursor: pointer; color: var(--text-color); display: flex; align-items: center; padding: 4px;" title="Search News">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+
+                <!-- Theme Toggle Switch Button -->
+                <button id="theme-toggle" style="background: var(--border-color); border: none; cursor: pointer; color: var(--text-color); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px;" title="Ganti Mode Tampilan">
+                    <span id="theme-icon">🌙</span> <span id="theme-text">Dark</span>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- Search Bar Drawer -->
-    <div id="search-modal" style="display: none; background-color: #07090e; border-bottom: 1px solid #1e293b; padding: 15px 20px; position: sticky; top: 65px; z-index: 45;">
+    <div id="search-modal" style="display: none; background-color: var(--ticker-bg); border-bottom: 1px solid var(--border-color); padding: 15px 20px; position: sticky; top: 65px; z-index: 45;">
         <div style="max-width: 600px; margin: 0 auto; display: flex; gap: 10px;">
-            <input type="text" id="search-input" placeholder="Cari berita gadget, smartphone, atau chipset..." style="width: 100%; background-color: #0b0f17; border: 1px solid #1e293b; color: #ffffff; padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; outline: none;" />
-            <button id="search-close" style="background: #1e293b; border: none; color: #ffffff; padding: 0 14px; border-radius: 8px; cursor: pointer; font-weight: 600;">Tutup</button>
+            <input type="text" id="search-input" placeholder="Cari berita gadget, smartphone, atau chipset..." style="width: 100%; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; outline: none;" />
+            <button id="search-close" style="background: var(--border-color); border: none; color: var(--text-color); padding: 0 14px; border-radius: 8px; cursor: pointer; font-weight: 600;">Tutup</button>
         </div>
     </div>
 
     <!-- Category Menu Drawer -->
-    <div id="mobile-menu" style="display: none; background-color: #07090e; border-bottom: 1px solid #1e293b; padding: 24px 20px; position: sticky; top: 65px; z-index: 40;">
+    <div id="mobile-menu" style="display: none; background-color: var(--ticker-bg); border-bottom: 1px solid var(--border-color); padding: 24px 20px; position: sticky; top: 65px; z-index: 40;">
         <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
             <div>
                 <div style="font-size: 0.75rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Categories</div>
                 <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; font-weight: 600;">
-                    <a href="#latest-news" style="color: #ffffff; text-decoration: none;">Smartphones & Mobiles</a>
-                    <a href="#latest-news" style="color: #94a3b8; text-decoration: none;">Gadgets & Wearables</a>
+                    <a href="#latest-news" style="color: var(--text-color); text-decoration: none;">Smartphones & Mobiles</a>
+                    <a href="#latest-news" style="color: var(--text-muted); text-decoration: none;">Gadgets & Wearables</a>
                 </div>
             </div>
             <div>
                 <div style="font-size: 0.75rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Portal</div>
                 <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; font-weight: 600;">
-                    <a href="/about" style="color: #94a3b8; text-decoration: none;">About Benchtekno</a>
-                    <a href="/admin" style="color: #94a3b8; text-decoration: none;">Admin Dashboard</a>
+                    <a href="/about" style="color: var(--text-muted); text-decoration: none;">About Benchtekno</a>
+                    <a href="/admin" style="color: var(--text-muted); text-decoration: none;">Admin Dashboard</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Interactive Drawer Scripts -->
+    <!-- Interactive Drawer & Theme Scripts -->
     <script>
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -115,6 +151,34 @@ const newsList = sortedArticles.slice(1, 7);
         searchClose?.addEventListener('click', () => {
             if (searchModal) searchModal.style.display = 'none';
         });
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+
+        // Check saved preference
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            if(themeIcon) themeIcon.textContent = '☀️';
+            if(themeText) themeText.textContent = 'Light';
+        }
+
+        themeToggle?.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            if (theme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+                if(themeIcon) themeIcon.textContent = '🌙';
+                if(themeText) themeText.textContent = 'Dark';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                if(themeIcon) themeIcon.textContent = '☀️';
+                if(themeText) themeText.textContent = 'Light';
+            }
+        });
     </script>
 
     <!-- Main Content Area -->
@@ -128,19 +192,19 @@ const newsList = sortedArticles.slice(1, 7);
                         <span style="width: 8px; height: 8px; background-color: #38bdf8; border-radius: 50%; display: inline-block;"></span>
                         TOP STORY / BREAKING NEWS
                     </div>
-                    <span style="font-size: 0.8rem; color: #64748b;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">
                         {new Date(topStory.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                 </div>
 
-                <a href={`/articles/${topStory.slug}`} style="text-decoration: none; display: block; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 36px; transition: border-color 0.2s;">
+                <a href={`/articles/${topStory.slug}`} style="text-decoration: none; display: block; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 36px; transition: border-color 0.2s;">
                     <div style="display: inline-block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 12px; border-radius: 6px; margin-bottom: 16px; border: 1px solid rgba(56, 189, 248, 0.2);">
                         {topStory.data.category}
                     </div>
-                    <h1 style="font-size: 2.3rem; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.25;">
+                    <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-color); margin: 0 0 16px 0; line-height: 1.25;">
                         {topStory.data.title}
                     </h1>
-                    <p style="color: #94a3b8; font-size: 1.1rem; margin: 0 0 24px 0; line-height: 1.6; max-width: 900px;">
+                    <p style="color: var(--text-muted); font-size: 1.1rem; margin: 0 0 24px 0; line-height: 1.6; max-width: 900px;">
                         {topStory.data.description}
                     </p>
                     <span style="color: #38bdf8; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">
@@ -152,8 +216,8 @@ const newsList = sortedArticles.slice(1, 7);
 
         <!-- Latest News Feed Section -->
         <section id="latest-news" style="margin-top: 60px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #1e293b; padding-bottom: 12px;">
-                <h3 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.5px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--text-color); margin: 0; letter-spacing: -0.5px;">
                     LATEST NEWS
                 </h3>
                 <span style="font-size: 0.85rem; color: #38bdf8; font-weight: 600; cursor: pointer;">MORE &rarr;</span>
@@ -162,21 +226,21 @@ const newsList = sortedArticles.slice(1, 7);
             {newsList.length > 0 ? (
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
                     {newsList.map((article) => (
-                        <a href={`/articles/${article.slug}`} style="text-decoration: none; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;">
+                        <a href={`/articles/${article.slug}`} style="text-decoration: none; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, border-color 0.2s;">
                             <div>
                                 <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 10px;">
                                     {article.data.category}
                                 </div>
-                                <h4 style="font-size: 1.2rem; font-weight: 700; color: #ffffff; margin: 0 0 10px 0; line-height: 1.4;">
+                                <h4 style="font-size: 1.2rem; font-weight: 700; color: var(--text-color); margin: 0 0 10px 0; line-height: 1.4;">
                                     {article.data.title}
                                 </h4>
-                                <p style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 20px 0; line-height: 1.5;">
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0 0 20px 0; line-height: 1.5;">
                                     {article.data.description}
                                 </p>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(30, 41, 59, 0.5); padding-top: 12px; margin-top: auto;">
-                                <span style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Benchtekno Desk</span>
-                                <span style="color: #64748b; font-size: 0.8rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: auto;">
+                                <span style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Benchtekno Desk</span>
+                                <span style="color: var(--text-muted); font-size: 0.8rem;">
                                     {new Date(article.data.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                 </span>
                             </div>
@@ -184,12 +248,12 @@ const newsList = sortedArticles.slice(1, 7);
                     ))}
                 </div>
             ) : (
-                <p style="color: #64748b; text-align: center; padding: 40px 0;">Belum ada berita terbaru. Tambahkan file Markdown baru ke folder `src/content/articles/`.</p>
+                <p style="color: var(--text-muted); text-align: center; padding: 40px 0;">Belum ada berita terbaru. Tambahkan file Markdown baru ke folder `src/content/articles/`.</p>
             )}
         </section>
 
         <!-- Footer -->
-        <footer style="border-top: 1px solid #1e293b; padding-top: 30px; text-align: center; color: #64748b; font-size: 0.85rem; margin-top: 80px; margin-bottom: 40px;">
+        <footer style="border-top: 1px solid var(--border-color); padding-top: 30px; text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 80px; margin-bottom: 40px;">
             &copy; 2026 Benchtekno. Global tech media, gadget updates, and smartphone intelligence.
         </footer>
 
