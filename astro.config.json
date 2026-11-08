@@ -1,0 +1,7 @@
+{
+  "site": "https://vercel.app",
+  "integrations": [
+    "@astrojs/tailwind",
+    "@astrojs/sitemap"
+  ]
+}
