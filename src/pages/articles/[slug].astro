@@ -12,11 +12,32 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await article.render();
 
-// Ambil hingga 5 artikel lain untuk rekomendasi di bagian bawah
 const allArticles = await getCollection('articles');
 const relatedArticles = allArticles
   .filter((item) => item.slug !== article.slug)
   .slice(0, 5);
+
+// Lock URL ke domain kustom benchtekno.com
+const siteDomain = 'https://www.benchtekno.com';
+const canonicalURL = `${siteDomain}/articles/${article.slug}/`;
+
+// JSON-LD Structured Data untuk SEO Google
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": article.data.title,
+  "description": article.data.description,
+  "datePublished": article.data.publishDate.toISOString(),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalURL
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Benchtekno Hardware Research Desk",
+    "url": siteDomain
+  }
+};
 ---
 
 <html lang="en">
@@ -24,6 +45,19 @@ const relatedArticles = allArticles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{article.data.title} — Benchtekno</title>
+    <meta name="description" content={article.data.description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Benchtekno RSS" href="/rss.xml" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={article.data.title} />
+    <meta property="og:description" content={article.data.description} />
+
+    <!-- Google Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
 <body style="background-color: #07090e; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0;">
 
@@ -62,7 +96,7 @@ const relatedArticles = allArticles
             </div>
         </article>
 
-        <!-- Related Articles (Displays up to 5) -->
+        <!-- Related Articles (Up to 5) -->
         {relatedArticles.length > 0 && (
             <section style="border-top: 1px solid #1e293b; margin-top: 60px; padding-top: 40px;">
                 <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; margin-bottom: 12px;">
