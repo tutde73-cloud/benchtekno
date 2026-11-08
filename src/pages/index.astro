@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 
 const allArticles = await getCollection('articles');
 const sortedArticles = allArticles.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -7,13 +8,7 @@ const featured = sortedArticles[0];
 const others = sortedArticles.slice(1);
 ---
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benchtekno — Global Tech Media & Hardware Reviews</title>
-</head>
-<body class="bg-[#07090e] text-slate-100 font-sans antialiased m-0 p-0 selection:bg-cyan-500 selection:text-white">
+<Layout title="Benchtekno — Global Tech Media & Hardware Reviews">
     
     <!-- Top Navigation Bar -->
     <header class="border-b border-slate-800 bg-[#0b0f17]/80 backdrop-blur-md sticky top-0 z-50">
@@ -23,14 +18,14 @@ const others = sortedArticles.slice(1);
                     BENCHTEKNO
                 </a>
                 <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-400">
-                    <a href="#" class="hover:text-cyan-400 transition-colors">Smartphones</a>
-                    <a href="#" class="hover:text-cyan-400 transition-colors">Laptops</a>
-                    <a href="#" class="hover:text-cyan-400 transition-colors">Benchmarks</a>
-                    <a href="#" class="hover:text-cyan-400 transition-colors">Reviews</a>
+                    <span class="hover:text-cyan-400 transition-colors cursor-pointer">Smartphones</span>
+                    <span class="hover:text-cyan-400 transition-colors cursor-pointer">Laptops</span>
+                    <span class="hover:text-cyan-400 transition-colors cursor-pointer">Benchmarks</span>
+                    <span class="hover:text-cyan-400 transition-colors cursor-pointer">Reviews</span>
                 </nav>
             </div>
             <div>
-                <a href="/about" class="text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/40 px-4 py-2 rounded-full border border-cyan-800/50 hover:bg-cyan-900/40 transition-all">
+                <a href="/about" class="text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/40 px-4 py-2 rounded-full border border-cyan-800/50 hover:bg-cyan-900/40 transition-all no-underline">
                     About Desk
                 </a>
             </div>
@@ -49,7 +44,7 @@ const others = sortedArticles.slice(1);
                     </span>
                 </div>
 
-                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all shadow-2xl">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
                     <div class="w-full h-72 sm:h-96 bg-[#090d16] border-b border-slate-800 flex items-center justify-center text-slate-600 font-mono text-sm tracking-widest">
                         [Featured Hero Image Preview]
                     </div>
@@ -72,7 +67,7 @@ const others = sortedArticles.slice(1);
                             {featured.data.description}
                         </p>
                         
-                        <a href={`/articles/${featured.slug}`} class="inline-flex items-center gap-2 text-cyan-400 font-semibold hover:text-cyan-300 transition-colors">
+                        <a href={`/articles/${featured.slug}`} class="inline-flex items-center gap-2 text-cyan-400 font-semibold hover:text-cyan-300 transition-colors no-underline">
                             Read Full Analysis &rarr;
                         </a>
                     </div>
@@ -93,8 +88,8 @@ const others = sortedArticles.slice(1);
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {others.map((article) => (
-                <a href={`/articles/${article.slug}`} class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden flex flex-col hover:border-slate-700 transition-all">
-                    <div class="w-full h-48 bg-[#090d16] border-b border-slate-800 flex items-center justify-center text-slate-600 font-mono text-xs tracking-wider group-hover:text-slate-500 transition-colors">
+                <a href={`/articles/${article.slug}`} class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden flex flex-col hover:border-slate-700 transition-all no-underline">
+                    <div class="w-full h-48 bg-[#090d16] border-b border-slate-800 flex items-center justify-center text-slate-600 font-mono text-xs tracking-wider">
                         [Gadget Thumbnail]
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between">
@@ -130,5 +125,4 @@ const others = sortedArticles.slice(1);
 
     </main>
 
-</body>
-</html>
+</Layout>
