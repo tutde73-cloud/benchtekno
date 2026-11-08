@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 
-// Mengambil data artikel secara dinamis dari folder src/content/articles/
 const allArticles = await getCollection('articles');
 const sortedArticles = allArticles.sort(
   (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
@@ -90,14 +89,14 @@ const totalArticlesCount = sortedArticles.length;
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 16px;">
             <div>
                 <h1 style="font-size: 1.8rem; font-weight: 900; margin: 0 0 6px 0; color: #ffffff;">Article & News Manager</h1>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Kelola dan buat draf artikel berita teknologi secara instan.</p>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Kelola dan buat draf artikel beserta konfigurasi gambarnya secara instan.</p>
             </div>
             <button id="open-modal-btn" class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
                 + Tulis Berita Baru (.md)
             </button>
         </div>
 
-        <!-- Quick Stats Grid (Real Count) -->
+        <!-- Quick Stats Grid -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
             <div class="card">
                 <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Total Berita Aktif</p>
@@ -112,7 +111,7 @@ const totalArticlesCount = sortedArticles.length;
             <div class="card">
                 <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Penyimpanan Gambar</p>
                 <h3 style="font-size: 0.95rem; font-family: monospace; font-weight: 800; margin: 0; color: #38bdf8;">public/images/</h3>
-                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; display: inline-block;">Aset Lokal Aktif</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; display: inline-block;">Upload Gambar ke Sini</span>
             </div>
             <div class="card">
                 <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin: 0 0 8px 0;">Status Deployment</p>
@@ -121,7 +120,7 @@ const totalArticlesCount = sortedArticles.length;
             </div>
         </div>
 
-        <!-- Article Management Table (Dynamic from Folder) -->
+        <!-- Article Management Table -->
         <section class="card" style="padding: 0; overflow: hidden;">
             <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
                 <h2 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff;">Daftar Publikasi Berita</h2>
@@ -170,11 +169,11 @@ const totalArticlesCount = sortedArticles.length;
 
     </main>
 
-    <!-- Modal / Drawer Form Input Berita (Interaktif & Berfungsi Penuh) -->
+    <!-- Modal / Drawer Form Input Berita dengan Input Cover & Gambar -->
     <div id="editor-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
-        <div class="card" style="width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-sizing: border-box; padding: 0;">
+        <div class="card" style="width: 100%; max-width: 750px; max-height: 90vh; overflow-y: auto; box-sizing: border-box; padding: 0;">
             <div style="padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15,23,42,0.5);">
-                <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff;">Generator Berita Baru (.md)</h3>
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0; color: #ffffff;">Generator Berita & Gambar (.md)</h3>
                 <button id="close-modal-btn" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
             
@@ -198,6 +197,18 @@ const totalArticlesCount = sortedArticles.length;
                     </div>
                 </div>
 
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nama File Cover Image</label>
+                        <input type="text" id="news-cover" placeholder="contoh: /images/rtx5090.jpg">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Nama File Gambar Utama</label>
+                        <input type="text" id="news-image" placeholder="contoh: /images/detail-1.jpg">
+                    </div>
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin: -8px 0 0 0;">*Catatan: Pastikan file gambar fisik sudah di-upload ke folder <code style="color: var(--accent);">public/images/</code> di GitHub.</p>
+
                 <div>
                     <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Ringkasan Berita (Description)</label>
                     <textarea id="news-desc" rows="2" placeholder="Tulis deskripsi singkat..."></textarea>
@@ -205,7 +216,7 @@ const totalArticlesCount = sortedArticles.length;
 
                 <div>
                     <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Isi Konten Berita (Markdown Format)</label>
-                    <textarea id="news-content" rows="5" placeholder="Tulis isi berita lengkap di sini..." style="font-family: monospace; font-size: 0.85rem;"></textarea>
+                    <textarea id="news-content" rows="4" placeholder="Tulis isi berita lengkap di sini..." style="font-family: monospace; font-size: 0.85rem;"></textarea>
                 </div>
 
                 <!-- Generated Markdown Output Box -->
@@ -224,7 +235,7 @@ const totalArticlesCount = sortedArticles.length;
         </div>
     </div>
 
-    <!-- Script Fungsional Tombol & Generator Real-time -->
+    <!-- Script Interaktif -->
     <script>
         const modal = document.getElementById('editor-modal');
         const openBtn = document.getElementById('open-modal-btn');
@@ -234,15 +245,15 @@ const totalArticlesCount = sortedArticles.length;
         const titleInput = document.getElementById('news-title');
         const catInput = document.getElementById('news-category');
         const dateInput = document.getElementById('news-date');
+        const coverInput = document.getElementById('news-cover');
+        const imageInput = document.getElementById('news-image');
         const descInput = document.getElementById('news-desc');
         const contentInput = document.getElementById('news-content');
         const outputPre = document.getElementById('markdown-output');
         const copyBtn = document.getElementById('copy-btn');
 
-        // Set tanggal hari ini secara otomatis di form
         dateInput.valueAsDate = new Date();
 
-        // Fungsi Buka/Tutup Modal yang Pasti Berfungsi
         openBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
             updateMarkdownPreview();
@@ -256,18 +267,18 @@ const totalArticlesCount = sortedArticles.length;
             modal.style.display = 'none';
         });
 
-        // Tutup modal jika klik di luar area kotak modal
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
             }
         });
 
-        // Live Generator Markdown
         function updateMarkdownPreview() {
             const title = titleInput.value || 'Judul Berita Baru';
             const category = catInput.value;
             const date = dateInput.value || '2026-11-08';
+            const cover = coverInput.value ? `\ncoverImage: "${coverInput.value}"` : '';
+            const img = imageInput.value ? `\nimage: "${imageInput.value}"` : '';
             const desc = descInput.value || 'Ringkasan atau lead paragraf berita...';
             const content = contentInput.value || 'Tulis konten lengkap artikel di sini...';
 
@@ -275,7 +286,7 @@ const totalArticlesCount = sortedArticles.length;
 title: "${title}"
 description: "${desc}"
 publishDate: "${date}"
-category: "${category}"
+category: "${category}"${cover}${img}
 ---
 
 ${content}`;
@@ -283,11 +294,10 @@ ${content}`;
             outputPre.textContent = mdText;
         }
 
-        [titleInput, catInput, dateInput, descInput, contentInput].forEach(el => {
+        [titleInput, catInput, dateInput, coverInput, imageInput, descInput, contentInput].forEach(el => {
             el.addEventListener('input', updateMarkdownPreview);
         });
 
-        // Tombol Salin Kode
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(outputPre.textContent);
             copyBtn.textContent = 'Berhasil Disalin!';
