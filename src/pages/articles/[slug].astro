@@ -50,11 +50,13 @@ const jsonLd = {
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Benchtekno RSS" href="/rss.xml" />
 
-    <!-- Open Graph / Social Media -->
+    <!-- Open Graph / Social Media Preview -->
     <meta property="og:type" content="article" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={article.data.title} />
     <meta property="og:description" content={article.data.description} />
+    <meta property="og:image" content={article.data.heroImage || 'https://www.benchtekno.com/default-og.jpg'} />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Google Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
