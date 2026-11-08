@@ -1,11 +1,6 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import sitemap from '@astrojs/sitemap';
 
+// https://astro.build/config
 export default defineConfig({
-  site: 'https://vercel.app',
-  integrations: [
-    tailwind(),
-    sitemap()
-  ]
+  site: 'https://benchtekno.vercel.app',
 });
