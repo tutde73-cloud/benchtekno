@@ -11,6 +11,12 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content } = await article.render();
+
+// Ambil hingga 5 artikel lain untuk rekomendasi di bagian bawah
+const allArticles = await getCollection('articles');
+const relatedArticles = allArticles
+  .filter((item) => item.slug !== article.slug)
+  .slice(0, 5);
 ---
 
 <html lang="en">
@@ -18,48 +24,77 @@ const { Content } = await article.render();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{article.data.title} — Benchtekno</title>
-    <meta name="description" content={article.data.description}>
 </head>
-<body style="background-color: #090d16; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px 20px;">
-    
-    <main style="max-width: 800px; margin: 0 auto;">
-        <!-- Back Button -->
-        <div style="margin-bottom: 30px;">
-            <a href="/" style="color: #38bdf8; text-decoration: none; font-size: 0.9rem; font-weight: 600;">
+<body style="background-color: #07090e; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0;">
+
+    <!-- Navigation Header -->
+    <header style="border-bottom: 1px solid #1e293b; background-color: #0b0f17; position: sticky; top: 0; z-index: 50;">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 20px;">
+            <a href="/" style="font-size: 1.3rem; font-weight: 900; letter-spacing: 1px; color: #ffffff; text-decoration: none;">
+                benchtekno
+            </a>
+            <a href="/" style="color: #38bdf8; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
                 &larr; Back to Home
             </a>
         </div>
+    </header>
 
-        <!-- Article Header -->
-        <header style="border-bottom: 1px solid #1e293b; padding-bottom: 30px; margin-bottom: 30px;">
-            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
-                <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #06b6d4; background: rgba(6, 182, 212, 0.1); padding: 4px 10px; border-radius: 6px;">
-                    {article.data.category}
-                </span>
-                <span style="font-size: 0.8rem; color: #94a3b8;">
-                    Published {article.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </span>
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+        
+        <!-- Article Content -->
+        <article style="margin-bottom: 60px;">
+            <div style="display: inline-block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; background: rgba(6, 182, 212, 0.1); padding: 4px 10px; border-radius: 6px; margin-bottom: 16px; border: 1px solid rgba(6, 182, 212, 0.2);">
+                {article.data.category}
             </div>
-            <h1 style="font-size: 2.25rem; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.25;">
+
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.2;">
                 {article.data.title}
             </h1>
-            <p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin: 0;">
-                {article.data.description}
-            </p>
-            <div style="margin-top: 20px; font-size: 0.85rem; color: #64748b;">
-                Written by <span style="color: #cbd5e1; font-weight: 600;">{article.data.author}</span>
-            </div>
-        </header>
 
-        <!-- Article Content Body -->
-        <article style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; space-y: 20px;">
-            <Content />
+            <div style="display: flex; gap: 16px; align-items: center; font-size: 0.85rem; color: #64748b; margin-bottom: 30px; border-bottom: 1px solid #1e293b; padding-bottom: 16px;">
+                <span>Published on {article.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                <span>•</span>
+                <span>Hardware Research Desk</span>
+            </div>
+
+            <div style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                <Content />
+            </div>
         </article>
 
+        <!-- Related Articles (Displays up to 5) -->
+        {relatedArticles.length > 0 && (
+            <section style="border-top: 1px solid #1e293b; margin-top: 60px; padding-top: 40px;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; margin-bottom: 12px;">
+                    KEEP READING
+                </div>
+                <h3 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin: 0 0 24px 0;">
+                    Related Hardware Analysis
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+                    {relatedArticles.map((rel) => (
+                        <a href={`/articles/${rel.slug}`} style="text-decoration: none; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; display: block;">
+                            <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #38bdf8; margin-bottom: 8px;">
+                                {rel.data.category}
+                            </div>
+                            <h4 style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin: 0 0 8px 0; line-height: 1.4;">
+                                {rel.data.title}
+                            </h4>
+                            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0; line-height: 1.5;">
+                                {rel.data.description}
+                            </p>
+                        </a>
+                    ))}
+                </div>
+            </section>
+        )}
+
         <!-- Footer -->
-        <footer style="border-top: 1px solid #1e293b; margin-top: 60px; padding-top: 20px; text-align: center; color: #64748b; font-size: 0.85rem;">
-            &copy; 2026 Benchtekno. Independent smartphone news, mobile reviews, and hardware insights.
+        <footer style="border-top: 1px solid #1e293b; padding-top: 30px; text-align: center; color: #64748b; font-size: 0.85rem; margin-top: 60px; margin-bottom: 40px;">
+            &copy; 2026 Benchtekno. Smartphone news, mobile reviews, and hardware insights.
         </footer>
+
     </main>
 
 </body>
