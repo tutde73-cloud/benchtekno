@@ -1,14 +1,12 @@
 ---
 interface Props {
-  title: string;
-  description: string;
-  image?: string;
+  title?: string;
+  description?: string;
 }
 
 const { 
   title = "Benchtekno — Global Tech Media & Hardware Reviews", 
-  description = "Deep technical hardware benchmarks, smartphone performance evaluations, and mobile chipset architectural analysis.",
-  image = "/og-image.jpg"
+  description = "Deep technical hardware benchmarks, smartphone performance evaluations, and mobile chipset architectural analysis."
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -39,11 +37,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta property="twitter:url" content={canonicalURL} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-
-		<!-- Google Search Console Verification (Opsional, masukkan nanti jika ada) -->
-		<!-- <meta name="google-site-verification" content="KODE_VERIFIKASI_KAMU" /> -->
 	</head>
-	<body class="bg-[#07090e] text-slate-100 font-sans antialiased m-0 p-0">
+	<body class="bg-[#07090e] text-slate-100 font-sans antialiased m-0 p-0 selection:bg-cyan-500 selection:text-white">
 		<slot />
 	</body>
 </html>
